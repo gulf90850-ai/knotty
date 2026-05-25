@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knotty & Cute — Handmade Crochet</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #f2a7bb;
+    --blush: #fde8f0;
+    --dusty: #e8c4d4;
+    --cream: #fdf6f0;
+    --deep: #7d3c5e;
+    --soft: #c97fa0;
+    --text: #4a2040;
+    --white: #fff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(253,232,240,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--dusty);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 48px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; color: var(--deep);
+    font-style: italic; letter-spacing: 1px;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--deep);
+    font-size: .85rem; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 700;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--soft); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fde8f0 0%, #fdf0f8 40%, #fce4ef 70%, #f9d8e8 100%);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 32px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-blob {
+    position: absolute; border-radius: 50%; filter: blur(60px); opacity: .35; pointer-events: none;
+  }
+  .blob1 { width: 500px; height: 500px; background: var(--rose); top: -100px; left: -100px; animation: drift 8s ease-in-out infinite alternate; }
+  .blob2 { width: 400px; height: 400px; background: #f5c6e8; bottom: -80px; right: -80px; animation: drift 10s ease-in-out infinite alternate-reverse; }
+  .blob3 { width: 300px; height: 300px; background: #fbc8d8; top: 30%; left: 60%; animation: drift 6s ease-in-out infinite alternate; }
+  @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.1); } }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+  .hero-tag {
+    display: inline-block;
+    background: var(--rose); color: var(--white);
+    font-size: .75rem; letter-spacing: 2.5px; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 100px; margin-bottom: 24px;
+    font-weight: 700; animation: fadeUp .8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1.1;
+    color: var(--deep); margin-bottom: 20px;
+    animation: fadeUp .8s .15s ease both;
+  }
+  .hero-title em { font-style: italic; color: var(--soft); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--soft); line-height: 1.7;
+    margin-bottom: 40px; font-weight: 300;
+    animation: fadeUp .8s .3s ease both;
+  }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp .8s .45s ease both; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  .btn-primary {
+    background: var(--deep); color: var(--white);
+    padding: 14px 36px; border-radius: 100px; text-decoration: none;
+    font-weight: 700; font-size: .9rem; letter-spacing: 1px;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 20px rgba(125,60,94,.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(125,60,94,.35); }
+  .btn-outline {
+    border: 2px solid var(--deep); color: var(--deep);
+    padding: 14px 36px; border-radius: 100px; text-decoration: none;
+    font-weight: 700; font-size: .9rem; letter-spacing: 1px;
+    transition: background .2s, color .2s;
+  }
+  .btn-outline:hover { background: var(--deep); color: var(--white); }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 96px 48px; position: relative; }
+  .section-label {
+    font-size: .75rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--soft); font-weight: 700; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem); color: var(--deep);
+    margin-bottom: 16px;
+  }
+  .section-desc { font-size: 1rem; color: var(--soft); line-height: 1.7; max-width: 520px; font-weight: 300; }
+  .center { text-align: center; }
+  .center .section-desc { margin: 0 auto; }
+
+  /* ── PRODUCTS ── */
+  #products { background: var(--white); }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px; margin-top: 56px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  }
+  .product-card {
+    background: var(--cream); border-radius: 24px;
+    overflow: hidden; transition: transform .3s, box-shadow .3s;
+    border: 1px solid var(--dusty);
+  }
+  .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(125,60,94,.12); }
+  .product-img {
+    height: 280px; background: linear-gradient(135deg, #fde8f0, #f5c6e8);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; position: relative; overflow: hidden;
+  }
+  .product-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(253,232,240,.6));
+  }
+  .product-body { padding: 24px; }
+  .product-name {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    color: var(--deep); margin-bottom: 8px;
+  }
+  .product-desc { font-size: .9rem; color: var(--soft); line-height: 1.6; margin-bottom: 16px; }
+  .product-price {
+    font-size: 1.5rem; font-weight: 700; color: var(--deep); margin-bottom: 4px;
+  }
+  .product-delivery { font-size: .8rem; color: #b07090; }
+  .btn-order {
+    display: block; width: 100%; margin-top: 20px;
+    background: linear-gradient(135deg, var(--rose), var(--soft));
+    color: var(--white); border: none; padding: 14px;
+    border-radius: 100px; font-weight: 700; font-size: .9rem;
+    cursor: pointer; transition: opacity .2s, transform .2s;
+    letter-spacing: .5px;
+  }
+  .btn-order:hover { opacity: .88; transform: scale(1.02); }
+
+  /* ── ORDER MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(74,32,64,.5); backdrop-filter: blur(6px);
+    z-index: 200; align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 28px;
+    padding: 40px; max-width: 480px; width: 100%;
+    box-shadow: 0 30px 80px rgba(74,32,64,.3);
+    animation: modalIn .35s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes modalIn { from { opacity:0; transform: scale(.88) translateY(20px); } to { opacity:1; transform: scale(1) translateY(0); } }
+  .modal-title {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem;
+    color: var(--deep); margin-bottom: 6px;
+  }
+  .modal-sub { font-size: .9rem; color: var(--soft); margin-bottom: 28px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-size: .8rem; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 700; color: var(--deep); margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%; padding: 12px 16px; border-radius: 12px;
+    border: 1.5px solid var(--dusty); font-size: .95rem;
+    font-family: 'Lato', sans-serif; background: var(--cream);
+    color: var(--text); outline: none; transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--rose); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .order-summary {
+    background: var(--blush); border-radius: 16px; padding: 18px;
+    margin-bottom: 20px; border: 1px solid var(--dusty);
+  }
+  .order-summary-row {
+    display: flex; justify-content: space-between;
+    font-size: .9rem; margin-bottom: 8px; color: var(--deep);
+  }
+  .order-summary-row.total {
+    font-weight: 700; font-size: 1rem;
+    border-top: 1px solid var(--dusty); padding-top: 10px; margin-top: 4px;
+  }
+  .modal-btns { display: flex; gap: 12px; }
+  .btn-cancel {
+    flex: 1; padding: 13px; border-radius: 100px;
+    border: 1.5px solid var(--dusty); background: transparent;
+    color: var(--text); font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif;
+    transition: background .2s;
+  }
+  .btn-cancel:hover { background: var(--blush); }
+  .btn-submit {
+    flex: 2; padding: 13px; border-radius: 100px;
+    background: linear-gradient(135deg, var(--deep), var(--soft));
+    color: var(--white); font-weight: 700; border: none;
+    cursor: pointer; font-family: 'Lato', sans-serif;
+    font-size: .95rem; letter-spacing: .5px;
+    transition: opacity .2s;
+  }
+  .btn-submit:hover { opacity: .88; }
+
+  /* ── SUCCESS TOAST ── */
+  .toast {
+    position: fixed; bottom: 32px; right: 32px; z-index: 300;
+    background: var(--deep); color: var(--white);
+    padding: 18px 28px; border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(74,32,64,.3);
+    font-weight: 700; font-size: .95rem;
+    transform: translateY(80px); opacity: 0;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s;
+    max-width: 320px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast p { font-weight: 400; font-size: .85rem; margin-top: 4px; color: var(--rose); }
+
+  /* ── HOW IT WORKS ── */
+  #how { background: var(--blush); }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px; margin-top: 56px; max-width: 900px; margin-left: auto; margin-right: auto;
+  }
+  .step { text-align: center; }
+  .step-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--soft));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin: 0 auto 18px;
+    box-shadow: 0 8px 24px rgba(242,167,187,.4);
+  }
+  .step h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--deep); margin-bottom: 8px; }
+  .step p { font-size: .9rem; color: var(--soft); line-height: 1.6; }
+
+  /* ── REVIEWS ── */
+  #reviews { background: var(--white); }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 56px; max-width: 1000px; margin-left: auto; margin-right: auto;
+  }
+  .review-card {
+    background: var(--cream); border-radius: 20px; padding: 28px;
+    border: 1px solid var(--dusty); transition: transform .3s;
+  }
+  .review-card:hover { transform: translateY(-4px); }
+  .stars { font-size: 1.1rem; margin-bottom: 12px; }
+  .review-text { font-size: .95rem; line-height: 1.7; color: var(--text); font-style: italic; margin-bottom: 18px; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .reviewer-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--rose), var(--soft));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: var(--white); font-weight: 700;
+  }
+  .reviewer-name { font-weight: 700; color: var(--deep); font-size: .9rem; }
+  .reviewer-loc { font-size: .8rem; color: var(--soft); }
+
+  /* LEAVE A REVIEW */
+  .review-form-wrap {
+    max-width: 560px; margin: 56px auto 0;
+    background: var(--blush); border-radius: 24px; padding: 36px;
+    border: 1px solid var(--dusty);
+  }
+  .review-form-title {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem;
+    color: var(--deep); margin-bottom: 6px;
+  }
+  .review-form-sub { font-size: .9rem; color: var(--soft); margin-bottom: 24px; }
+  .star-select { display: flex; gap: 8px; margin-bottom: 18px; }
+  .star-btn {
+    font-size: 1.6rem; cursor: pointer; background: none; border: none;
+    transition: transform .15s; filter: grayscale(1); opacity: .4;
+  }
+  .star-btn.active { filter: grayscale(0); opacity: 1; transform: scale(1.15); }
+
+  /* ── CONTACT / WHATSAPP ── */
+  #contact { background: var(--blush); }
+  .contact-card {
+    max-width: 600px; margin: 0 auto;
+    background: var(--white); border-radius: 28px; padding: 48px;
+    border: 1px solid var(--dusty); text-align: center;
+    box-shadow: 0 16px 48px rgba(125,60,94,.08);
+  }
+  .wa-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: #25d366; display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(37,211,102,.3);
+  }
+  .contact-number { font-size: 1.5rem; font-weight: 700; color: var(--deep); margin: 16px 0; }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #25d366; color: var(--white); padding: 14px 36px;
+    border-radius: 100px; text-decoration: none; font-weight: 700;
+    font-size: .95rem; transition: opacity .2s, transform .2s;
+    box-shadow: 0 4px 20px rgba(37,211,102,.3);
+  }
+  .wa-btn:hover { opacity: .88; transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep); color: rgba(255,255,255,.7);
+    padding: 40px 48px; text-align: center;
+    font-size: .85rem; line-height: 1.8;
+  }
+  footer .footer-logo {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem;
+    font-style: italic; color: var(--white); margin-bottom: 12px;
+  }
+  footer a { color: var(--rose); text-decoration: none; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    text-align: center; font-size: 1.4rem; letter-spacing: 8px;
+    color: var(--rose); padding: 12px 0;
+  }
+
+  /* ── MOBILE ── */
+  @media(max-width: 768px) {
+    nav { padding: 14px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: .75rem; }
+    section { padding: 72px 20px; }
+    .contact-card { padding: 32px 20px; }
+    .modal { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Knotty & Cute ✿</div>
+  <ul class="nav-links">
+    <li><a href="#products">Shop</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="hero-blob blob3"></div>
+  <div class="hero-content">
+    <span class="hero-tag">✦ Handmade with love in Pakistan</span>
+    <h1 class="hero-title">Carry Art,<br><em>Wear a Story</em></h1>
+    <p class="hero-sub">Each piece is hand-crocheted, one stitch at a time — bags & keychains made just for you 🌸</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Shop Now</a>
+      <a href="#how" class="btn-outline">How to Order</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="center">
+    <div class="section-label">Our Collection</div>
+    <h2 class="section-title">Handmade Just for You 🎀</h2>
+    <p class="section-desc">Each item is lovingly crocheted — no two pieces are exactly the same.</p>
+  </div>
+  <div class="products-grid">
+
+    </div>
+
+    </div>
+
+    <!-- CUSTOM -->
+    <div class="product-card">
+      <div class="product-img" style="background: linear-gradient(135deg,#fce4ef,#f5d0e8)">🌷</div>
+      <div class="product-body">
+        <h3 class="product-name">Custom Order</h3>
+        <p class="product-desc">Want something unique? Request a custom color, size, or design. We love bringing your ideas to life!</p>
+        <div class="product-price">Let's chat!</div>
+        <div class="product-delivery">Price depends on design</div>
+        <button class="btn-order" onclick="openCustom()">Request Custom ✨</button>
+      </div>
+    </div>
+
+  </div>
+<!-- KEYCHAIN GALLERY -->
+<section id="keychains" style="background: var(--cream);">
+  <div class="center">
+    <div class="section-label">Our Keychains</div>
+    <h2 class="section-title">Pick Your Favourite 🍓</h2>
+    <p class="section-desc center">Each keychain is handmade — tap any one to order!</p>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; max-width:1100px; margin:48px auto 0;">
+
+    <!-- KEYCHAIN 1 — change image src and name -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="abc.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Wizard Cat Keychain</h3>
+        <div class="product-price">Rs. 500</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Wizard Cat Keychain', 500)">Order 🌸</button>
+      </div>
+    </div>
+
+    <!-- KEYCHAIN 2 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="bcd.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Turtle Keychain</h3>
+        <div class="product-price">Rs. 500</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Turtle Keychain', 500)">Order 🌸</button>
+      </div>
+    </div>
+
+    <!-- KEYCHAIN 3 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="ccd.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Jelly Fish Keychain</h3>
+        <div class="product-price">Rs. 500</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Jelly Fish Keychain', 500)">Order 🌸</button>
+      </div>
+    </div>
+
+    <!-- KEYCHAIN 4 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="ppg.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Penguin Keychain</h3>
+        <div class="product-price">Rs. 500</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Penguin Keychain', 500)">Order 🌸</button>
+      </div>
+    </div>
+
+    <!-- ✦ COPY ONE BLOCK ABOVE TO ADD MORE KEYCHAINS ✦ -->
+
+  </div>
+</section>
+<!-- BAG GALLERY -->
+<section id="bags" style="background: var(--white);">
+  <div class="center">
+    <div class="section-label">Our Bags</div>
+    <h2 class="section-title">Handmade Crochet Bags 👜</h2>
+    <p class="section-desc center">Each bag is carefully crocheted — perfect for everyday use!</p>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:24px; max-width:1100px; margin:48px auto 0;">
+
+    <!-- BAG 1 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="efg.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Guitar Bag</h3>
+        <div class="product-price">Rs. 3,000</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Guitar Bag', 3000)">Order 💕</button>
+      </div>
+    </div>
+
+    <!-- BAG 2 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="ghi.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Mini Hand Bag</h3>
+        <div class="product-price">Rs.2000</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Mini Hand Bag', 2000)">Order 💕</button>
+      </div>
+    </div>
+
+    <!-- BAG 3 -->
+    <div class="product-card">
+      <div class="product-img">
+        <img src="abb.jpeg" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Shoulder Bag</h3>
+        <div class="product-price">Rs. 3,000</div>
+        <div class="product-delivery">+ Rs. 250 delivery</div>
+        <button class="btn-order" onclick="openOrder('Shoulder Bag', 3000)">Order 💕</button>
+      </div>
+    </div>
+
+    <!-- ✦ COPY ONE BLOCK ABOVE TO ADD MORE BAGS ✦ -->
+
+  </div>
+</section>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="center">
+    <div class="section-label">Simple & Easy</div>
+    <h2 class="section-title">How to Order 🎀</h2>
+    <p class="section-desc">Ordering your crochet piece is super easy — just 4 steps!</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-icon">🛍️</div>
+      <h3>Pick Your Item</h3>
+      <p>Browse our collection and click "Order Now" on your favourite piece.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">📝</div>
+      <h3>Fill Your Details</h3>
+      <p>Share your name, address & any special requests in the order form.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">💸</div>
+      <h3>Pay via EasyPaisa</h3>
+      <p>Send payment to our WhatsApp number and share a screenshot as confirmation.</p>
+    </div>
+    <div class="step">
+      <div class="step-icon">📦</div>
+      <h3>We Ship to You!</h3>
+      <p>We pack your order with love and dispatch it right to your door.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="center">
+    <div class="section-label">Customer Love</div>
+    <h2 class="section-title">What They're Saying 💬</h2>
+    <p class="section-desc">Real love from real customers — every stitch, every smile.</p>
+  </div>
+  
+     <!-- Leave a Review -->
+  <div class="review-form-wrap">
+    <div class="review-form-title">Leave a Review 🌸</div>
+    <div class="review-form-sub">Had a good experience? We'd love to hear from you!</div>
+    <div class="star-select" id="starSelect">
+      <button class="star-btn" data-v="1" onclick="setStar(1)">⭐</button>
+      <button class="star-btn" data-v="2" onclick="setStar(2)">⭐</button>
+      <button class="star-btn" data-v="3" onclick="setStar(3)">⭐</button>
+      <button class="star-btn" data-v="4" onclick="setStar(4)">⭐</button>
+      <button class="star-btn" data-v="5" onclick="setStar(5)">⭐</button>
+    </div>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="reviewName" placeholder="e.g. Ayesha from Lahore">
+    </div>
+    <div class="form-group">
+      <label>Your Review</label>
+      <textarea id="reviewText" placeholder="Tell us about your experience..."></textarea>
+    </div>
+    <button class="btn-order" onclick="submitReview()">Submit Review ✨</button>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="center">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="section-title">Chat With Us on WhatsApp 💬</h2>
+  </div>
+  <div class="contact-card" style="margin-top:40px">
+    <div class="wa-icon">📱</div>
+    <p style="color:var(--soft);font-size:.95rem">Have a question about your order? Want a custom design? We're just a message away!</p>
+    <div class="contact-number">+92 3175410084</div>
+    <a href="https://wa.me/923175410084" target="_blank" class="wa-btn">
+      <span>💬</span> Chat on WhatsApp
+    </a>
+    <p style="color:var(--soft);font-size:.82rem;margin-top:20px">
+      Payment via <strong style="color:var(--deep)">EasyPaisa</strong><br>
+      Send payment screenshot to confirm your order 💕
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Knotty & Cute ✿</div>
+  <p>Handmade crochet bags & keychains — crafted with love in Pakistan 🇵🇰</p>
+  <p style="margin-top:8px">WhatsApp: <a href="https://wa.me/923175410084">+92 317 541 0084</a></p>
+  <p style="margin-top:16px;font-size:.78rem;opacity:.5">© 2025 Knotty & Cute. All rights reserved.</p>
+</footer>
+
+<!-- ORDER MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeIfOutside(event)">
+  <div class="modal" id="modal">
+    <h2 class="modal-title" id="modalTitle">Place Your Order 🌸</h2>
+    <p class="modal-sub" id="modalSub">Fill in your details and we'll confirm via WhatsApp!</p>
+
+    <div class="order-summary">
+      <div class="order-summary-row"><span id="itemLabel">Item</span><span id="itemPrice">Rs. 0</span></div>
+      <div class="order-summary-row"><span>Delivery</span><span>Rs. 250</span></div>
+      <div class="order-summary-row total"><span>Total</span><span id="totalPrice">Rs. 0</span></div>
+    </div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="custName" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>WhatsApp / Phone Number</label>
+      <input type="tel" id="custPhone" placeholder="03xx xxxxxxx">
+    </div>
+    <div class="form-group">
+      <label>Delivery Address</label>
+      <textarea id="custAddress" placeholder="House no, street, city..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Special Requests (Optional)</label>
+      <input type="text" id="custNote" placeholder="Color, size, or anything else...">
+    </div>
+    <div class="form-group">
+      <label>Payment Method</label>
+      <select id="custPayment">
+        <option value="">Select payment method</option>
+        <option value="EasyPaisa">EasyPaisa</option>
+      </select>
+    </div>
+
+    <p style="font-size:.82rem;color:var(--soft);margin-bottom:20px;line-height:1.6">
+      📌 After placing order, send payment to <strong style="color:var(--deep)">03175410084</strong> via EasyPaisa and share screenshot on WhatsApp.
+    </p>
+
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitOrder()">Place Order 💕</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div id="toastTitle">Order Received! 🎀</div>
+  <p id="toastMsg">We'll confirm your order on WhatsApp shortly.</p>
+</div>
+
+<script>
+  let currentItem = '', currentPrice = 0, selectedStars = 0;
+
+  function openOrder(item, price) {
+    currentItem = item;
+    currentPrice = price;
+    document.getElementById('modalTitle').textContent = `Order: ${item} 🌸`;
+    document.getElementById('itemLabel').textContent = item;
+    document.getElementById('itemPrice').textContent = `Rs. ${price.toLocaleString()}`;
+    document.getElementById('totalPrice').textContent = `Rs. ${(price + 250).toLocaleString()}`;
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function openCustom() {
+    window.open('https://wa.me/923175410084?text=Hi!%20I%20want%20to%20request%20a%20custom%20crochet%20order%20🌸', '_blank');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+    clearForm();
+  }
+
+  function closeIfOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function clearForm() {
+    ['custName','custPhone','custAddress','custNote'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('custPayment').value = '';
+  }
+
+  function submitOrder() {
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const address = document.getElementById('custAddress').value.trim();
+    const payment = document.getElementById('custPayment').value;
+    const note = document.getElementById('custNote').value.trim();
+
+    if (!name || !phone || !address || !payment) {
+      showToast('Oops! 😊', 'Please fill in all required fields.', true);
+      return;
+    }
+
+    // Build WhatsApp message
+    const total = currentPrice + 250;
+    const msg = `🌸 *New Order — Knotty & Cute* 🌸%0A%0A`
+      + `📦 *Item:* ${currentItem}%0A`
+      + `💰 *Item Price:* Rs. ${currentPrice.toLocaleString()}%0A`
+      + `🚚 *Delivery:* Rs. 250%0A`
+      + `✅ *Total:* Rs. ${total.toLocaleString()}%0A%0A`
+      + `👤 *Name:* ${name}%0A`
+      + `📱 *Phone:* ${phone}%0A`
+      + `🏠 *Address:* ${address}%0A`
+      + `💳 *Payment:* ${payment}%0A`
+      + (note ? `📝 *Note:* ${note}` : '');
+
+    window.open(`https://wa.me/923175410084?text=${msg}`, '_blank');
+    closeModal();
+    showToast('Order Sent! 🎀', `Redirecting you to WhatsApp to confirm and send payment. Total: Rs. ${total.toLocaleString()}`);
+  }
+
+  function setStar(n) {
+    selectedStars = n;
+    document.querySelectorAll('.star-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i < n);
+    });
+  }
+
+  function submitReview() {
+    const name = document.getElementById('reviewName').value.trim();
+    const text = document.getElementById('reviewText').value.trim();
+    if (!name || !text || !selectedStars) {
+      showToast('Almost there! 😊', 'Please add your name, stars, and review text.', true);
+      return;
+    }
+    const stars = '⭐'.repeat(selectedStars);
+    const initials = name.charAt(0).toUpperCase();
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.style.animation = 'fadeUp .5s ease both';
+    card.innerHTML = `
+      <div class="stars">${stars}</div>
+      <p class="review-text">"${text}"</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">${initials}</div>
+        <div><div class="reviewer-name">${name}</div><div class="reviewer-loc">Just now</div></div>
+      </div>`;
+    document.getElementById('reviewsGrid').prepend(card);
+    document.getElementById('reviewName').value = '';
+    document.getElementById('reviewText').value = '';
+    setStar(0);
+    selectedStars = 0;
+    showToast('Thank you! 🌸', 'Your review has been added.');
+  }
+
+  function showToast(title, msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.style.background = isError ? '#c0697a' : 'var(--deep)';
+    document.getElementById('toastTitle').textContent = title;
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 4000);
+  }
+
+  // Fade in sections on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.style.animation = 'fadeUp .7s ease both';
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.product-card, .step, .review-card').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
